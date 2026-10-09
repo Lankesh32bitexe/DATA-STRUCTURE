@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0b1020" />
+<title>Attendly — Attendance Portal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+:root{--bg:#0b1020;--panel:#11182b;--line:rgba(255,255,255,.09);--muted:#98a4bd;--text:#f4f7ff;--mint:#74f0c2;--blue:#7ea6ff;--red:#ff8190}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 12% 0%,rgba(75,108,190,.17),transparent 38%),radial-gradient(ellipse at 90% 85%,rgba(67,218,173,.08),transparent 35%),var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
+.wrap{max-width:1120px;margin:auto;padding:28px 24px 60px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:72px}.brand{display:flex;align-items:center;gap:12px;font:800 20px Manrope,sans-serif;letter-spacing:-.6px}.logo{height:40px;width:40px;border-radius:13px;background:linear-gradient(145deg,#8effd3,#52cba6);display:grid;place-items:center;color:#081a18;box-shadow:0 8px 25px #64e5bd2a}.logo svg{width:22px}.badge{font-size:12px;color:#c2cbe0;border:1px solid var(--line);border-radius:30px;padding:9px 13px;display:flex;align-items:center;gap:8px}.dot{height:7px;width:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 12px #74f0c2}
+.hero{max-width:720px;margin:0 auto 42px;text-align:center}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2.4px;font-weight:700;color:var(--mint);margin-bottom:19px}.hero h1{font:800 clamp(38px,6vw,65px)/1.08 Manrope,sans-serif;letter-spacing:-2.8px;margin:0 0 20px}.hero h1 span{color:var(--mint)}.hero p{margin:0 auto;color:var(--muted);font-size:16px;line-height:1.75;max-width:530px}
+.search-card{max-width:700px;margin:auto;background:linear-gradient(145deg,rgba(21,30,52,.97),rgba(14,21,38,.97));border:1px solid rgba(255,255,255,.11);border-radius:24px;padding:25px;box-shadow:0 25px 80px rgba(0,0,0,.22)}.label-row{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:11px}.label{font-size:13px;font-weight:700;color:#e8edfa}.hint{font-size:12px;color:#7886a2}.input-row{display:flex;gap:10px}.input-wrap{position:relative;flex:1}.input-wrap svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:19px;color:#8190ad}.input-wrap input{width:100%;height:56px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:#0a1020;color:white;font:600 15px 'DM Sans',sans-serif;padding:0 15px 0 47px;outline:none;transition:.2s}.input-wrap input:focus{border-color:#74f0c2;box-shadow:0 0 0 3px #74f0c21c}.input-wrap input::placeholder{color:#62708a}.search-btn{height:56px;padding:0 22px;border:0;border-radius:14px;background:var(--mint);color:#082017;font-weight:800;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:9px;transition:.2s;white-space:nowrap}.search-btn:hover{transform:translateY(-1px);background:#9affd9}.search-btn:disabled{opacity:.65;cursor:wait;transform:none}.search-btn svg{width:17px}.privacy{display:flex;gap:7px;align-items:center;color:#7886a2;font-size:11px;margin-top:15px}.privacy svg{width:14px;color:var(--mint)}
+.message{display:none;margin:18px auto 0;max-width:700px;padding:14px 17px;border-radius:14px;font-size:13px;line-height:1.5}.message.error{display:block;background:#ff819012;border:1px solid #ff81903b;color:#ffb1bb}.message.info{display:block;background:#7ea6ff12;border:1px solid #7ea6ff35;color:#c3d2ff}
+.results{display:none;max-width:900px;margin:34px auto 0;animation:up .35s ease}.results.show{display:block}.result-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px}.result-head h2{font:700 21px Manrope,sans-serif;margin:0}.student-pill{font-size:12px;color:var(--mint);background:#74f0c212;border:1px solid #74f0c22e;border-radius:30px;padding:8px 12px}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}.stat{border:1px solid var(--line);border-radius:18px;padding:21px;background:linear-gradient(145deg,#151e33,#101729)}.stat .cap{color:var(--muted);font-size:12px;margin-bottom:12px}.stat .value{font:800 29px Manrope,sans-serif;letter-spacing:-1px}.stat .sub{color:#8290aa;font-size:11px;margin-top:6px}.stat.primary .value{color:var(--mint)}.table-card{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#101729}.table-title{display:flex;align-items:center;justify-content:space-between;padding:19px 21px;border-bottom:1px solid var(--line)}.table-title h3{margin:0;font:700 15px Manrope,sans-serif}.table-title span{font-size:11px;color:var(--muted)}.table-scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{text-align:left;padding:15px 21px;border-bottom:1px solid rgba(255,255,255,.055);font-size:13px}th{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#8492ad;background:#ffffff03}td{color:#dce4f4}tbody tr:last-child td{border-bottom:0}.ratio{font-weight:700;color:#f4f7ff}.track{width:90px;height:5px;border-radius:8px;background:#ffffff12;overflow:hidden;display:inline-block;margin-left:9px;vertical-align:middle}.fill{height:100%;border-radius:8px;background:var(--mint)}.empty{padding:28px;text-align:center;color:var(--muted);font-size:13px}
+.footer{display:flex;align-items:center;justify-content:space-between;gap:14px;max-width:900px;margin:34px auto 0;padding-top:20px;border-top:1px solid var(--line);color:#687692;font-size:11px}.footer strong{color:#a7b3ca;font-weight:600}.loading{display:inline-block;width:15px;height:15px;border:2px solid #0b2d21;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:620px){.wrap{padding:20px 15px 35px}.top{margin-bottom:54px}.badge{font-size:10px;padding:8px}.hero h1{letter-spacing:-1.8px}.hero p{font-size:14px}.search-card{padding:18px;border-radius:19px}.input-row{flex-direction:column}.search-btn{justify-content:center;width:100%}.hint{display:none}.summary{grid-template-columns:1fr;gap:10px}.stat{padding:17px}.stat .value{font-size:25px}.footer{flex-direction:column;align-items:flex-start}.result-head{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="m8 12 2.5 2.5L16 9"/></svg></div>attendly<span style="color:var(--mint)">.</span></div>
+    <div class="badge"><span class="dot"></span> Attendance lookup</div>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="eyebrow">Student attendance portal</div>
+      <h1>Your attendance.<br><span>One simple search.</span></h1>
+      <p>Enter your roll number to view your attendance summary and subject-wise records in seconds.</p>
+    </section>
+    <form class="search-card" id="searchForm">
+      <div class="label-row"><label class="label" for="rollno">Student roll number</label><span class="hint">Use your official university roll number</span></div>
+      <div class="input-row">
+        <div class="input-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg><input id="rollno" name="rollno" autocomplete="off" placeholder="e.g. 25CSE167" required /></div>
+        <button class="search-btn" id="searchBtn" type="submit">Check attendance <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+      </div>
+      <div class="privacy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Your attendance is fetched securely from the connected university API.</div>
+    </form>
+    <div id="message" class="message" role="status"></div>
+    <section class="results" id="results" aria-live="polite">
+      <div class="result-head"><h2>Attendance overview</h2><span class="student-pill" id="studentPill">Roll No. —</span></div>
+      <div class="summary" id="summary"></div>
+      <div class="table-card"><div class="table-title"><h3>Subject-wise attendance</h3><span id="dateLabel">Latest available records</span></div>
+        <div class="table-scroll"><table><thead><tr><th>Subject</th><th>Attended / Held</th><th>Attendance</th></tr></thead><tbody id="subjectRows"></tbody></table></div>
+        <div class="empty" id="emptySubjects" hidden>No subject attendance records were found.</div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><span>© <span id="year"></span> <strong>Attendly</strong> · Student tools</span><span>Clean records. Clear progress.</span></footer>
+</div>
+<script>
+const API_BASE = "https://backend-erp-ny2i.onrender.com/api/attendance?rollno=";
+const form = document.getElementById("searchForm");
+const rollInput = document.getElementById("rollno");
+const button = document.getElementById("searchBtn");
+const message = document.getElementById("message");
+const results = document.getElementById("results");
+document.getElementById("year").textContent = new Date().getFullYear();
+
+function showMessage(text, type="error") {
+  message.className = `message ${type}`;
+  message.textContent = text;
+  message.style.display = "block";
+}
+function clearMessage(){message.className="message";message.textContent="";message.style.display="none";}
+function first(obj, keys) {
+  for (const key of keys) if (obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== "") return obj[key];
+  return null;
+}
+function asArray(value) {
+  if (Array.isArray(value)) return value;
+  if (value && typeof value === "object") {
+    for (const v of Object.values(value)) if (Array.isArray(v)) return v;
+  }
+  return [];
+}
+function parseRatio(value) {
+  if (typeof value === "number") return {attended:value, held:null};
+  if (typeof value !== "string") return null;
+  const match = value.trim().match(/^(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)$/);
+  return match ? {attended:Number(match[1]), held:Number(match[2])} : null;
+}
+function percent(attended, held) { return held > 0 ? Math.max(0, Math.min(100, attended/held*100)) : null; }
+function pctText(value) { return value === null ? "—" : `${value.toFixed(1)}%`; }
+
+function renderAttendance(data, roll) {
+  // API responses may be a plain object, a list, or wrapped in a data property.
+  let payload = data;
+  if (payload && !Array.isArray(payload) && typeof payload === "object") {
+    payload = first(payload, ["dataAttendance","attendance","data","result","results"]) ?? payload;
+  }
+  const entries = asArray(payload);
+  if (!entries.length && (!payload || typeof payload !== "object" || !Object.keys(payload).length)) {
+    throw new Error("NOT_FOUND");
+  }
+  // Common API shape: dataAttendance is a list of date-wise subject records.
+  const records = entries.length ? entries : (Array.isArray(data) ? data : []);
+  const latest = records.length ? records[records.length - 1] : null;
+  const subjectMap = new Map();
+
+  for (const record of records) {
+    if (!record || typeof record !== "object") continue;
+    for (const [key, value] of Object.entries(record)) {
+      if (/date|roll|student|name|message|status|success/i.test(key)) continue;
+      const ratio = parseRatio(value);
+      if (!ratio) continue;
+      const existing = subjectMap.get(key) || {attended:0, held:0, hasHeld:false};
+      existing.attended += ratio.attended;
+      if (ratio.held !== null) { existing.held += ratio.held; existing.hasHeld = true; }
+      subjectMap.set(key, existing);
+    }
+  }
+  const subjects = [...subjectMap.entries()].map(([name, v]) => ({
+    name, attended:v.attended, held:v.hasHeld?v.held:null,
+    pct:v.hasHeld?percent(v.attended,v.held):null
+  })).filter(s => s.held === null || s.held > 0 || s.attended > 0);
+
+  if (!records.length && payload && typeof payload === "object") {
+    const keys = Object.keys(payload);
+    if (!keys.length || first(payload, ["found","success"]) === false || first(payload, ["message","error"])) throw new Error("NOT_FOUND");
+  }
+  if (!subjects.length) {
+    const hasMeaningfulData = records.some(r => r && typeof r === "object" && Object.keys(r).some(k => !/date|roll|student|name|message|status|success/i.test(k)));
+    if (!hasMeaningfulData) throw new Error("NOT_FOUND");
+  }
+
+  // Overall percentage is calculated from the combined subject totals, when possible.
+  const valid = subjects.filter(s => s.held !== null);
+  const totalAttended = valid.reduce((n,s)=>n+s.attended,0);
+  const totalHeld = valid.reduce((n,s)=>n+s.held,0);
+  const overall = totalHeld > 0 ? percent(totalAttended,totalHeld) : null;
+  const totalClasses = totalHeld > 0 ? `${totalAttended} / ${totalHeld}` : "—";
+  const date = latest && first(latest, ["AttendanceDate","attendanceDate","date","Date"]);
+
+  document.getElementById("studentPill").textContent = `Roll No. ${roll}`;
+  document.getElementById("dateLabel").textContent = date ? `Record date: ${date}` : "Latest available records";
+  document.getElementById("summary").innerHTML = `
+    <article class="stat primary"><div class="cap">Overall attendance</div><div class="value">${pctText(overall)}</div><div class="sub">${overall===null?"Percentage unavailable in API data":"Across subjects with class totals"}</div></article>
+    <article class="stat"><div class="cap">Classes attended / held</div><div class="value">${totalClasses}</div><div class="sub">Combined subject totals</div></article>
+    <article class="stat"><div class="cap">Subjects found</div><div class="value">${subjects.length}</div><div class="sub">Subjects with attendance entries</div></article>`;
+  const rows = document.getElementById("subjectRows");
+  rows.innerHTML = "";
+  subjects.sort((a,b)=>a.name.localeCompare(b.name)).forEach(s=>{
+    const ratio = s.held === null ? `${s.attended} recorded` : `${s.attended} / ${s.held}`;
+    const pct = s.pct;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${escapeHtml(s.name)}</td><td class="ratio">${escapeHtml(ratio)}</td><td>${pctText(pct)} ${pct===null?"":`<span class="track"><span class="fill" style="display:block;width:${pct}%"></span></span>`}</td>`;
+    rows.appendChild(tr);
+  });
+  document.getElementById("emptySubjects").hidden = subjects.length !== 0;
+  results.classList.add("show");
+}
+function escapeHtml(value){return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const roll = rollInput.value.trim();
+  if (!roll) { showMessage("Please enter your roll number."); rollInput.focus(); return; }
+  clearMessage(); results.classList.remove("show");
+  button.disabled = true;
+  button.innerHTML = '<span class="loading"></span> Fetching…';
+  try {
+    const response = await fetch(API_BASE + encodeURIComponent(roll), {method:"GET",headers:{"Accept":"application/json"}});
+    if (response.status === 404) throw new Error("NOT_FOUND");
+    if (!response.ok) throw new Error("SERVER");
+    const text = await response.text();
+    if (!text.trim()) throw new Error("NOT_FOUND");
+    let data;
+    try { data = JSON.parse(text); } catch { throw new Error("SERVER"); }
+    if (data === null || data === undefined || data === "" || data?.success === false || data?.found === false || data?.status === 404) throw new Error("NOT_FOUND");
+    renderAttendance(data, roll);
+    clearMessage();
+    results.scrollIntoView({behavior:"smooth",block:"start"});
+  } catch (error) {
+    results.classList.remove("show");
+    if (error.message === "NOT_FOUND") showMessage("Not found — no attendance records were returned for this roll number. Please check the number and try again.");
+    else if (error instanceof TypeError) showMessage("Could not connect to the attendance server. It may be waking up, or the API may not allow browser requests (CORS). Please try again shortly.");
+    else showMessage("The attendance server returned an unexpected response. Please try again in a moment.");
+  } finally {
+    button.disabled = false;
+    button.innerHTML = 'Check attendance <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+  }
+});
+</script>
+</body>
+</html>
