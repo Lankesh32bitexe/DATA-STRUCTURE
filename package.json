@@ -1,0 +1,12 @@
+{
+  "name": "attendly-attendance-portal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "devDependencies": {
+    "vercel": "^41.0.0"
+  }
+}
